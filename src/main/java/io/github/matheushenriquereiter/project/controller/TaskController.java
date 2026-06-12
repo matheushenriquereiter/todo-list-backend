@@ -21,4 +21,11 @@ public class TaskController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> delete(@RequestParam("userId") Long userId) {
+        taskService.delete(userId);
+
+        return ResponseEntity.ok().build();
+    }
 }
