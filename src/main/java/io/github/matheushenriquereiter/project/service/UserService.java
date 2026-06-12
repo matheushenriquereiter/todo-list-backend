@@ -4,7 +4,7 @@ import io.github.matheushenriquereiter.project.dto.JwtTokenDTO;
 import io.github.matheushenriquereiter.project.dto.UserRegisterDTO;
 import io.github.matheushenriquereiter.project.dto.UserLoginDTO;
 import io.github.matheushenriquereiter.project.exception.DuplicateEmailException;
-import io.github.matheushenriquereiter.project.exception.InvalidCredentialException;
+import io.github.matheushenriquereiter.project.exception.InvalidAttributeException;
 import io.github.matheushenriquereiter.project.model.User;
 import io.github.matheushenriquereiter.project.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -46,13 +46,13 @@ public class UserService {
         Optional<User> userOptional = userRepository.findByEmail(userLoginDTO.getEmail());
 
         if (userOptional.isEmpty()) {
-            throw new InvalidCredentialException("email", "Email not associated with a user");
+            throw new InvalidAttributeException("email", "Email not associated with a user");
         }
 
         User user = userOptional.get();
 
         if (!passwordEncoder.matches(userLoginDTO.getPassword(), user.getPassword())) {
-            throw new InvalidCredentialException("password", "Incorrect password");
+            throw new InvalidAttributeException("password", "Incorrect password");
         }
 
         return new JwtTokenDTO(jwtService.generateToken(userLoginDTO.getEmail()));

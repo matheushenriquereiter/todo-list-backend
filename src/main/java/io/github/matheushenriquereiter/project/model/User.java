@@ -3,6 +3,8 @@ package io.github.matheushenriquereiter.project.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -23,6 +25,9 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Task> tasks;
 
     public User(String username, String email, String password) {
         this.username = username;
