@@ -1,4 +1,4 @@
-package io.github.matheushenriquereiter.project.dto;
+package io.github.matheushenriquereiter.project.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +10,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserLoginDTO {
+public class UserRegisterDTO {
+    @NotBlank(message = "User username must not be empty")
+    @Size(min = 3, max = 50, message = "User username must be between 3 and 50 characters long")
+    private String username;
+
     @NotBlank(message = "User email must not be empty")
     @Email(message = "User email must be valid.")
     private String email;

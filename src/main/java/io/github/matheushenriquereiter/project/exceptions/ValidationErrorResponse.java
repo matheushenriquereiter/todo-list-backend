@@ -1,4 +1,4 @@
-package io.github.matheushenriquereiter.project.exception;
+package io.github.matheushenriquereiter.project.exceptions;
 
 
 import lombok.Getter;

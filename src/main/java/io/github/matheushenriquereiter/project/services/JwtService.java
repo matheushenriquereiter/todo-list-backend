@@ -1,4 +1,4 @@
-package io.github.matheushenriquereiter.project.service;
+package io.github.matheushenriquereiter.project.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

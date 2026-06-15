@@ -1,6 +1,6 @@
-package io.github.matheushenriquereiter.project.repository;
+package io.github.matheushenriquereiter.project.repositories;
 
-import io.github.matheushenriquereiter.project.model.User;
+import io.github.matheushenriquereiter.project.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

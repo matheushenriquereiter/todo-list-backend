@@ -1,6 +1,6 @@
-package io.github.matheushenriquereiter.project.config;
+package io.github.matheushenriquereiter.project.configs;
 
-import io.github.matheushenriquereiter.project.filter.JwtAuthenticationFilter;
+import io.github.matheushenriquereiter.project.filters.JwtAuthenticationFilter;
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

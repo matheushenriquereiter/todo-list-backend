@@ -1,7 +1,7 @@
-package io.github.matheushenriquereiter.project.controller;
+package io.github.matheushenriquereiter.project.controllers;
 
-import io.github.matheushenriquereiter.project.dto.TaskDTO;
-import io.github.matheushenriquereiter.project.service.TaskService;
+import io.github.matheushenriquereiter.project.dtos.TaskDTO;
+import io.github.matheushenriquereiter.project.services.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +23,15 @@ public class TaskController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam("userId") Long userId) {
-        taskService.delete(userId);
+    public ResponseEntity<?> delete(@RequestParam("taskId") Long taskId) {
+        taskService.delete(taskId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@Valid @RequestBody TaskDTO taskDTO, Long taskId) {
+        taskService.update(taskDTO, taskId);
 
         return ResponseEntity.ok().build();
     }

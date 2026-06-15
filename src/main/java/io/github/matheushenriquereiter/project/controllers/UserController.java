@@ -1,9 +1,9 @@
-package io.github.matheushenriquereiter.project.controller;
+package io.github.matheushenriquereiter.project.controllers;
 
-import io.github.matheushenriquereiter.project.dto.JwtTokenDTO;
-import io.github.matheushenriquereiter.project.dto.UserRegisterDTO;
-import io.github.matheushenriquereiter.project.dto.UserLoginDTO;
-import io.github.matheushenriquereiter.project.service.UserService;
+import io.github.matheushenriquereiter.project.dtos.JwtTokenDTO;
+import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
+import io.github.matheushenriquereiter.project.dtos.UserLoginDTO;
+import io.github.matheushenriquereiter.project.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
         userService.register(userRegisterDTO);
 
         return ResponseEntity.ok().build();

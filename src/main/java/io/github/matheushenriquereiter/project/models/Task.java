@@ -1,4 +1,4 @@
-package io.github.matheushenriquereiter.project.model;
+package io.github.matheushenriquereiter.project.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

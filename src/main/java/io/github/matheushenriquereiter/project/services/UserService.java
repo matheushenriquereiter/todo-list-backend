@@ -1,12 +1,12 @@
-package io.github.matheushenriquereiter.project.service;
+package io.github.matheushenriquereiter.project.services;
 
-import io.github.matheushenriquereiter.project.dto.JwtTokenDTO;
-import io.github.matheushenriquereiter.project.dto.UserRegisterDTO;
-import io.github.matheushenriquereiter.project.dto.UserLoginDTO;
-import io.github.matheushenriquereiter.project.exception.DuplicateEmailException;
-import io.github.matheushenriquereiter.project.exception.InvalidAttributeException;
-import io.github.matheushenriquereiter.project.model.User;
-import io.github.matheushenriquereiter.project.repository.UserRepository;
+import io.github.matheushenriquereiter.project.dtos.JwtTokenDTO;
+import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
+import io.github.matheushenriquereiter.project.dtos.UserLoginDTO;
+import io.github.matheushenriquereiter.project.exceptions.DuplicateEmailException;
+import io.github.matheushenriquereiter.project.exceptions.InvalidAttributeException;
+import io.github.matheushenriquereiter.project.models.User;
+import io.github.matheushenriquereiter.project.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

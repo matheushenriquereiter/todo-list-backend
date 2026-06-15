@@ -1,4 +1,4 @@
-package io.github.matheushenriquereiter.project.dto;
+package io.github.matheushenriquereiter.project.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

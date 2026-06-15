@@ -1,6 +1,6 @@
-package io.github.matheushenriquereiter.project.filter;
+package io.github.matheushenriquereiter.project.filters;
 
-import io.github.matheushenriquereiter.project.service.JwtService;
+import io.github.matheushenriquereiter.project.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;

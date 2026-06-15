@@ -1,4 +1,4 @@
-package io.github.matheushenriquereiter.project.exception;
+package io.github.matheushenriquereiter.project.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
