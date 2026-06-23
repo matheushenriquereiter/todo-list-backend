@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/task")
+@CrossOrigin(origins = "http://localhost:5173/")
 public class TaskController {
-    public TaskService taskService;
+    public final TaskService taskService;
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
