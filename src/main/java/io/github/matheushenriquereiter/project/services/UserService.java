@@ -1,10 +1,11 @@
 package io.github.matheushenriquereiter.project.services;
 
 import io.github.matheushenriquereiter.project.dtos.JwtTokenDTO;
-import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
 import io.github.matheushenriquereiter.project.dtos.UserLoginDTO;
-import io.github.matheushenriquereiter.project.exceptions.DuplicateEmailException;
-import io.github.matheushenriquereiter.project.exceptions.InvalidAttributeException;
+import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
+import io.github.matheushenriquereiter.project.exceptions.EmailAlreadyTakenException;
+import io.github.matheushenriquereiter.project.exceptions.InvalidCredentialsException;
+import io.github.matheushenriquereiter.project.exceptions.UserNotFoundException;
 import io.github.matheushenriquereiter.project.models.User;
 import io.github.matheushenriquereiter.project.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -27,14 +28,10 @@ public class UserService {
     }
 
     public void register(UserRegisterDTO userRegisterDTO) {
-        if (userRegisterDTO == null) {
-            throw new IllegalArgumentException("UserDTO can't be null");
-        }
-
         Optional<User> user = userRepository.findByEmail(userRegisterDTO.getEmail());
 
         if (user.isPresent()) {
-            throw new DuplicateEmailException();
+            throw new EmailAlreadyTakenException("Email already taken");
         }
 
         String encodedPassword = passwordEncoder.encode(userRegisterDTO.getPassword());
@@ -46,13 +43,13 @@ public class UserService {
         Optional<User> userOptional = userRepository.findByEmail(userLoginDTO.getEmail());
 
         if (userOptional.isEmpty()) {
-            throw new InvalidAttributeException("email", "Email not associated with a user");
+            throw new InvalidCredentialsException("Incorrect email or password");
         }
 
         User user = userOptional.get();
 
         if (!passwordEncoder.matches(userLoginDTO.getPassword(), user.getPassword())) {
-            throw new InvalidAttributeException("password", "Incorrect password");
+            throw new InvalidCredentialsException("Incorrect email or password");
         }
 
         return new JwtTokenDTO(jwtService.generateToken(userLoginDTO.getEmail()));

@@ -1,7 +1,7 @@
 package io.github.matheushenriquereiter.project.services;
 
 import io.github.matheushenriquereiter.project.dtos.TaskDTO;
-import io.github.matheushenriquereiter.project.exceptions.InvalidAttributeException;
+import io.github.matheushenriquereiter.project.exceptions.UserNotFoundException;
 import io.github.matheushenriquereiter.project.models.Task;
 import io.github.matheushenriquereiter.project.models.User;
 import io.github.matheushenriquereiter.project.repositories.TaskRepository;
@@ -23,7 +23,7 @@ public class TaskService {
     }
 
     public void create(TaskDTO taskDTO) {
-        User user = userRepository.findById(taskDTO.getUserId()).orElseThrow(() -> new InvalidAttributeException("userId", "No user is associated with this ID"));
+        User user = userRepository.findById(taskDTO.getUserId()).orElseThrow(() -> new UserNotFoundException("No user is associated with this ID"));
 
         Task task = new Task(taskDTO.getTitle(), taskDTO.getDescription(), user);
 
@@ -38,7 +38,7 @@ public class TaskService {
         Optional<Task> taskOptional = taskRepository.findById(taskId);
 
         if (taskOptional.isEmpty()) {
-            throw new InvalidAttributeException("userId", "No user is associated with this ID");
+            throw new UserNotFoundException("No user is associated with this ID");
         }
 
         Task task = taskOptional.get();

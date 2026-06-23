@@ -2,6 +2,7 @@ package io.github.matheushenriquereiter.project.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,29 +12,27 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        ValidationErrorResponse errorResponse = new ValidationErrorResponse();
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Validation failed for one or more fields.");
 
         for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
-            errorResponse.addError(fieldError.getField(), fieldError.getDefaultMessage());
+            errorResponse.addFieldError(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
-    @ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<ValidationErrorResponse> handleDuplicateEmailException(DuplicateEmailException exception) {
-        ValidationErrorResponse errorResponse = new ValidationErrorResponse();
-        errorResponse.addError(exception.getField(), exception.getMessage());
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
 
-        return ResponseEntity.badRequest().body(errorResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    @ExceptionHandler(InvalidAttributeException.class)
-    public ResponseEntity<ValidationErrorResponse> handleInvalidAttributeException(InvalidAttributeException exception) {
-        ValidationErrorResponse errorResponse = new ValidationErrorResponse();
-        errorResponse.addError(exception.getField(), exception.getMessage());
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Required request body is missing");
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }
