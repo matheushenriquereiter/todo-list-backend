@@ -23,7 +23,7 @@ public class TaskService {
     }
 
     public void create(TaskDTO taskDTO) {
-        User user = userRepository.findById(taskDTO.getUserId()).orElseThrow(() -> new UserNotFoundException("No user is associated with this ID"));
+        User user = userRepository.findById(taskDTO.getUserId()).orElseThrow(UserNotFoundException::new);
 
         Task task = new Task(taskDTO.getTitle(), taskDTO.getDescription(), user);
 
@@ -38,7 +38,7 @@ public class TaskService {
         Optional<Task> taskOptional = taskRepository.findById(taskId);
 
         if (taskOptional.isEmpty()) {
-            throw new UserNotFoundException("No user is associated with this ID");
+            throw new UserNotFoundException();
         }
 
         Task task = taskOptional.get();

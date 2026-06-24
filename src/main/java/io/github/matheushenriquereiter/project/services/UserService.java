@@ -13,7 +13,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,7 +33,7 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(userRegisterDTO.getEmail());
 
         if (user.isPresent()) {
-            throw new EmailAlreadyTakenException("Email already taken");
+            throw new EmailAlreadyTakenException();
         }
 
         String encodedPassword = passwordEncoder.encode(userRegisterDTO.getPassword());
@@ -46,13 +45,13 @@ public class UserService {
         Optional<User> userOptional = userRepository.findByEmail(userLoginDTO.getEmail());
 
         if (userOptional.isEmpty()) {
-            throw new InvalidCredentialsException("Incorrect email or password");
+            throw new InvalidCredentialsException();
         }
 
         User user = userOptional.get();
 
         if (!passwordEncoder.matches(userLoginDTO.getPassword(), user.getPassword())) {
-            throw new InvalidCredentialsException("Incorrect email or password");
+            throw new InvalidCredentialsException();
         }
 
         return new JwtTokenDTO(jwtService.generateToken(userLoginDTO.getEmail()));
@@ -62,7 +61,7 @@ public class UserService {
         Optional<User> userOptional = userRepository.findById(userId);
 
         if (userOptional.isEmpty()) {
-            throw new UserNotFoundException("No user is associated with this ID");
+            throw new UserNotFoundException();
         }
 
         User user = userOptional.get();
