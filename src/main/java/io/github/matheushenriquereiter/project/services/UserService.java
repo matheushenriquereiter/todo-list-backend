@@ -1,6 +1,7 @@
 package io.github.matheushenriquereiter.project.services;
 
 import io.github.matheushenriquereiter.project.dtos.JwtTokenDTO;
+import io.github.matheushenriquereiter.project.dtos.TaskDTO;
 import io.github.matheushenriquereiter.project.dtos.UserLoginDTO;
 import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
 import io.github.matheushenriquereiter.project.exceptions.EmailAlreadyTakenException;
@@ -13,6 +14,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -57,7 +59,7 @@ public class UserService {
         return new JwtTokenDTO(jwtService.generateToken(userLoginDTO.getEmail()));
     }
 
-    public Set<Task> getTasks(Long userId) {
+    public List<TaskDTO> getTasks(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
 
         if (userOptional.isEmpty()) {
@@ -65,7 +67,8 @@ public class UserService {
         }
 
         User user = userOptional.get();
+        Set<Task> tasks = user.getTasks();
 
-        return user.getTasks();
+        return tasks.stream().map(task -> new TaskDTO(task.getTitle(), task.getDescription(), task.getUser().getId())).toList();
     }
 }

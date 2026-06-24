@@ -1,17 +1,15 @@
 package io.github.matheushenriquereiter.project.controllers;
 
 import io.github.matheushenriquereiter.project.dtos.JwtTokenDTO;
-import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
+import io.github.matheushenriquereiter.project.dtos.TaskDTO;
 import io.github.matheushenriquereiter.project.dtos.UserLoginDTO;
-import io.github.matheushenriquereiter.project.models.Task;
-import io.github.matheushenriquereiter.project.models.User;
+import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
 import io.github.matheushenriquereiter.project.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -38,8 +36,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/tasks")
-    public ResponseEntity<Set<Task>> getUserTasks(@PathVariable Long userId) {
-        Set<Task> userTasks = userService.getTasks(userId);
+    public ResponseEntity<List<TaskDTO>> getUserTasks(@PathVariable Long userId) {
+        List<TaskDTO> userTasks = userService.getTasks(userId);
 
         return ResponseEntity.ok(userTasks);
     }
