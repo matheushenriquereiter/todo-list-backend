@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/tasks")
 @CrossOrigin(origins = "http://localhost:5173/")
 public class TaskController {
     public final TaskService taskService;
