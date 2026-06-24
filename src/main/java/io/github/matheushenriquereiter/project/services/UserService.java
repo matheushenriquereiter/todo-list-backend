@@ -6,16 +6,13 @@ import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
 import io.github.matheushenriquereiter.project.exceptions.EmailAlreadyTakenException;
 import io.github.matheushenriquereiter.project.exceptions.InvalidCredentialsException;
 import io.github.matheushenriquereiter.project.exceptions.UserNotFoundException;
-import io.github.matheushenriquereiter.project.models.Task;
 import io.github.matheushenriquereiter.project.models.User;
 import io.github.matheushenriquereiter.project.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -56,17 +53,5 @@ public class UserService {
         }
 
         return new JwtTokenDTO(jwtService.generateToken(userLoginDTO.getEmail()));
-    }
-
-    public Set<Task> getTasks(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-
-        if (userOptional.isEmpty()) {
-            throw new UserNotFoundException("No user is associated with this ID");
-        }
-
-        User user = userOptional.get();
-
-        return user.getTasks();
     }
 }
