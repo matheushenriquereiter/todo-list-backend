@@ -1,4 +1,4 @@
 package io.github.matheushenriquereiter.project.dtos;
 
-public record JwtTokenDTO(String token) {
+public record JwtTokenDTO(String jwtToken) {
 }

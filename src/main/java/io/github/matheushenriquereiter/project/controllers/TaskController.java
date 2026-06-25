@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
+
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin(origins = "http://localhost:5173/")
@@ -17,22 +19,8 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@Valid @RequestBody TaskDTO taskDTO) {
+    public ResponseEntity<Serializable> create(@Valid @RequestBody TaskDTO taskDTO) {
         taskService.create(taskDTO);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam("taskId") Long taskId) {
-        taskService.delete(taskId);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<?> update(@Valid @RequestBody TaskDTO taskDTO, Long taskId) {
-        taskService.update(taskDTO, taskId);
 
         return ResponseEntity.ok().build();
     }
