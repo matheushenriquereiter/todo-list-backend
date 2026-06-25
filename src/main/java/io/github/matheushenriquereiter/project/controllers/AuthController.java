@@ -17,7 +17,7 @@ import java.io.Serializable;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
     public final AuthService authService;
     private final JwtService jwtService;

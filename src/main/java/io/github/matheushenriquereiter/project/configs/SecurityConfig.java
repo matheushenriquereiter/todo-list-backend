@@ -36,7 +36,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .deleteCookies("jwt_token")
+                        .deleteCookies("jwtToken")
                         .logoutSuccessUrl("/login")
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")))
