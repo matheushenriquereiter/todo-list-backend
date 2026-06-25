@@ -5,11 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{url}}/users/:userId/tasks"
-  params:
-    - name: userId
-      value: "1"
-      type: path
+  url: "{{url}}/user/tasks"
   auth: inherit
 
 settings:

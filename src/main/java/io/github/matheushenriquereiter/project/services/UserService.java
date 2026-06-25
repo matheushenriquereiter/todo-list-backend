@@ -1,8 +1,6 @@
 package io.github.matheushenriquereiter.project.services;
 
 import io.github.matheushenriquereiter.project.dtos.TaskDTO;
-import io.github.matheushenriquereiter.project.dtos.UserDTO;
-import io.github.matheushenriquereiter.project.exceptions.InvalidCredentialsException;
 import io.github.matheushenriquereiter.project.exceptions.UserNotFoundException;
 import io.github.matheushenriquereiter.project.models.Task;
 import io.github.matheushenriquereiter.project.models.User;
@@ -24,18 +22,16 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
-    public List<TaskDTO> getTasks(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(InvalidCredentialsException::new);
+    public User getUserFromToken(String jwtToken) {
+        String userEmail = jwtService.extractUsername(jwtToken);
 
+        return userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
+    }
+
+    public List<TaskDTO> getTasks(String jwtToken) {
+        User user = getUserFromToken(jwtToken);
         Set<Task> tasks = user.getTasks();
 
         return tasks.stream().map(task -> new TaskDTO(task.getTitle(), task.getDescription(), task.getUser().getId())).toList();
-    }
-
-    public UserDTO getUserFromToken(String jwtToken) {
-        String userEmail = jwtService.extractUsername(jwtToken);
-        User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
-
-        return new UserDTO(user.getUsername(), user.getEmail());
     }
 }
