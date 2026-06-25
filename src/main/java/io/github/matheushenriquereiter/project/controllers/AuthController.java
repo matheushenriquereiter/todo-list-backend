@@ -4,11 +4,8 @@ import io.github.matheushenriquereiter.project.dtos.JwtTokenDTO;
 import io.github.matheushenriquereiter.project.dtos.UserDTO;
 import io.github.matheushenriquereiter.project.dtos.UserLoginDTO;
 import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
-import io.github.matheushenriquereiter.project.exceptions.UserNotFoundException;
-import io.github.matheushenriquereiter.project.models.User;
-import io.github.matheushenriquereiter.project.repositories.UserRepository;
 import io.github.matheushenriquereiter.project.services.AuthService;
-import io.github.matheushenriquereiter.project.services.JwtService;
+import io.github.matheushenriquereiter.project.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +17,11 @@ import java.io.Serializable;
 @CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
     public final AuthService authService;
-    private final JwtService jwtService;
-    private final UserRepository userRepository;
+    public final UserService userService;
 
-    public AuthController(AuthService authService, JwtService jwtService, UserRepository userRepository) {
+    public AuthController(AuthService authService, UserService userService) {
         this.authService = authService;
-        this.jwtService = jwtService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @PostMapping("/register")
@@ -45,10 +40,7 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDTO> me(@CookieValue("jwtToken") String jwtToken) {
-        String userEmail = jwtService.extractUsername(jwtToken);
-        User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
-
-        UserDTO userDTO = new UserDTO(user.getUsername(), user.getEmail());
+        UserDTO userDTO = userService.getUserFromToken(jwtToken);
 
         return ResponseEntity.ok(userDTO);
     }

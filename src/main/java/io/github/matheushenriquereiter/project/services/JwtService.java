@@ -19,30 +19,18 @@ public class JwtService {
 
     public String generateToken(String username) {
 
-        return Jwts.builder()
-                .subject(username)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(key)
-                .compact();
+        return Jwts.builder().subject(username).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).signWith(key).compact();
     }
 
     public String extractUsername(String token) {
-        Claims payload = Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        Claims payload = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
 
         return payload.getSubject();
     }
 
     public boolean isValid(String token) {
         try {
-            Jwts.parser()
-                    .verifyWith(key)
-                    .build()
-                    .parseSignedClaims(token);
+            Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
 
             return true;
         } catch (JwtException | IllegalArgumentException e) {
