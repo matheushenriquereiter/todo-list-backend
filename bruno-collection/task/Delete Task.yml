@@ -5,7 +5,7 @@ info:
 
 http:
   method: DELETE
-  url: "{{url}}/task/1"
+  url: "{{url}}/tasks/1"
 
 settings:
   encodeUrl: true

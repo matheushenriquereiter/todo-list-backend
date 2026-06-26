@@ -1,6 +1,6 @@
 package io.github.matheushenriquereiter.project.services;
 
-import io.github.matheushenriquereiter.project.dtos.TaskDTO;
+import io.github.matheushenriquereiter.project.dtos.TaskResponseDTO;
 import io.github.matheushenriquereiter.project.exceptions.UserNotFoundException;
 import io.github.matheushenriquereiter.project.models.Task;
 import io.github.matheushenriquereiter.project.models.User;
@@ -28,10 +28,10 @@ public class UserService {
         return userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
     }
 
-    public List<TaskDTO> getUserTasks(String jwtToken) {
+    public List<TaskResponseDTO> getUserTasks(String jwtToken) {
         User user = getUserFromToken(jwtToken);
         Set<Task> tasks = user.getTasks();
 
-        return tasks.stream().map(task -> new TaskDTO(task.getId(), task.getTitle(), task.getDescription())).toList();
+        return tasks.stream().map(task -> new TaskResponseDTO(task.getId(), task.getTitle(), task.getDescription())).toList();
     }
 }

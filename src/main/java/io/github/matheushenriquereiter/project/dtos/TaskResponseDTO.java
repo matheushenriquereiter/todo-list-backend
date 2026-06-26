@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskDTO {
+public class TaskResponseDTO {
     @NotNull(message = "Task ID cannot be empty")
     private Long id;
 

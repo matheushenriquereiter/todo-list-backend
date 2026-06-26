@@ -10,8 +10,8 @@ http:
     type: json
     data: |-
       {
-        "email": "aaa@gmail.com",
-        "password": "aaa"
+        "email": "matheus@gmail.com",
+        "password": "matheus"
       }
   auth: inherit
 

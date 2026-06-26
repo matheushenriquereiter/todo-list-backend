@@ -1,32 +1,34 @@
 package io.github.matheushenriquereiter.project.services;
 
-import io.github.matheushenriquereiter.project.dtos.CreateTaskDTO;
-import io.github.matheushenriquereiter.project.dtos.TaskDTO;
+import io.github.matheushenriquereiter.project.dtos.TaskRequestDTO;
 import io.github.matheushenriquereiter.project.exceptions.TaskNotFoundException;
-import io.github.matheushenriquereiter.project.exceptions.UserNotFoundException;
 import io.github.matheushenriquereiter.project.models.Task;
 import io.github.matheushenriquereiter.project.models.User;
 import io.github.matheushenriquereiter.project.repositories.TaskRepository;
+import io.github.matheushenriquereiter.project.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class TaskService {
     private final TaskRepository taskRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final JwtService jwtService;
 
-    public TaskService(TaskRepository taskRepository, UserService userService) {
+    public TaskService(TaskRepository taskRepository, UserService userService, UserRepository userRepository, JwtService jwtService) {
         this.taskRepository = taskRepository;
         this.userService = userService;
+        this.userRepository = userRepository;
+        this.jwtService = jwtService;
     }
 
-    public void create(String jwtToken, CreateTaskDTO createTaskDTO) {
+    public void create(String jwtToken, TaskRequestDTO taskRequestDTO) {
         User user = userService.getUserFromToken(jwtToken);
-        Task task = new Task(createTaskDTO.getTitle(), createTaskDTO.getDescription(), user);
+        Task task = new Task(taskRequestDTO.getTitle(), taskRequestDTO.getDescription(), user);
 
         taskRepository.save(task);
     }
@@ -40,5 +42,19 @@ public class TaskService {
         }
 
         taskRepository.delete(task);
+    }
+
+    public void update(String jwtToken, Long taskId, TaskRequestDTO taskRequestDTO) {
+        User user = userService.getUserFromToken(jwtToken);
+        Task task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
+
+        if (!user.getId().equals(task.getId())) {
+            throw new TaskNotFoundException();
+        }
+
+        task.setTitle(taskRequestDTO.getTitle());
+        task.setDescription(taskRequestDTO.getDescription());
+
+        taskRepository.save(task);
     }
 }
