@@ -1,5 +1,6 @@
 package io.github.matheushenriquereiter.project.controllers;
 
+import io.github.matheushenriquereiter.project.dtos.CreateTaskDTO;
 import io.github.matheushenriquereiter.project.dtos.TaskDTO;
 import io.github.matheushenriquereiter.project.services.TaskService;
 import jakarta.validation.Valid;
@@ -19,8 +20,8 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Serializable> create(@Valid @RequestBody TaskDTO taskDTO) {
-        taskService.create(taskDTO);
+    public ResponseEntity<Serializable> create(@CookieValue("jwtToken") String jwtToken, @Valid @RequestBody CreateTaskDTO createTaskDTO) {
+        taskService.create(jwtToken, createTaskDTO);
 
         return ResponseEntity.ok().build();
     }

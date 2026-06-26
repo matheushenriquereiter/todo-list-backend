@@ -18,7 +18,7 @@ public class UserController {
 
     @GetMapping("/user/tasks")
     public ResponseEntity<List<TaskDTO>> getUserTasks(@CookieValue("jwtToken") String jwtToken) {
-        List<TaskDTO> userTasks = userService.getTasks(jwtToken);
+        List<TaskDTO> userTasks = userService.getUserTasks(jwtToken);
 
         return ResponseEntity.ok(userTasks);
     }

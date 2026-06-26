@@ -28,10 +28,10 @@ public class UserService {
         return userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
     }
 
-    public List<TaskDTO> getTasks(String jwtToken) {
+    public List<TaskDTO> getUserTasks(String jwtToken) {
         User user = getUserFromToken(jwtToken);
         Set<Task> tasks = user.getTasks();
 
-        return tasks.stream().map(task -> new TaskDTO(task.getTitle(), task.getDescription(), task.getUser().getId())).toList();
+        return tasks.stream().map(task -> new TaskDTO(task.getId(), task.getTitle(), task.getDescription())).toList();
     }
 }
