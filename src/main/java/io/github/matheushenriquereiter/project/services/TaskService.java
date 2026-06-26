@@ -2,6 +2,7 @@ package io.github.matheushenriquereiter.project.services;
 
 import io.github.matheushenriquereiter.project.dtos.CreateTaskDTO;
 import io.github.matheushenriquereiter.project.dtos.TaskDTO;
+import io.github.matheushenriquereiter.project.exceptions.TaskNotFoundException;
 import io.github.matheushenriquereiter.project.exceptions.UserNotFoundException;
 import io.github.matheushenriquereiter.project.models.Task;
 import io.github.matheushenriquereiter.project.models.User;
@@ -9,6 +10,7 @@ import io.github.matheushenriquereiter.project.repositories.TaskRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,5 +29,16 @@ public class TaskService {
         Task task = new Task(createTaskDTO.getTitle(), createTaskDTO.getDescription(), user);
 
         taskRepository.save(task);
+    }
+
+    public void delete(String jwtToken, Long taskId) {
+        User user = userService.getUserFromToken(jwtToken);
+        Task task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
+
+        if (!Objects.equals(user.getId(), task.getId())) {
+            throw new TaskNotFoundException();
+        }
+
+        taskRepository.delete(task);
     }
 }
