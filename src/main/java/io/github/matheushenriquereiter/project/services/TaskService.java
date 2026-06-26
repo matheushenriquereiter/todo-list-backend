@@ -16,14 +16,10 @@ import java.util.Objects;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final UserService userService;
-    private final UserRepository userRepository;
-    private final JwtService jwtService;
 
-    public TaskService(TaskRepository taskRepository, UserService userService, UserRepository userRepository, JwtService jwtService) {
+    public TaskService(TaskRepository taskRepository, UserService userService) {
         this.taskRepository = taskRepository;
         this.userService = userService;
-        this.userRepository = userRepository;
-        this.jwtService = jwtService;
     }
 
     public void create(String jwtToken, TaskRequestDTO taskRequestDTO) {
