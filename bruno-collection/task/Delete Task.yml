@@ -8,7 +8,7 @@ http:
   url: "{{url}}/tasks/:taskId"
   params:
     - name: taskId
-      value: "2"
+      value: "3"
       type: path
 
 settings:

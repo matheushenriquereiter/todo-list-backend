@@ -45,7 +45,7 @@ public class TaskService {
         User user = userService.getUserFromToken(jwtToken);
         Task task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
 
-        if (!Objects.equals(user.getId(), task.getId())) {
+        if (!Objects.equals(user.getId(), task.getUser().getId())) {
             throw new TaskNotFoundException();
         }
 
