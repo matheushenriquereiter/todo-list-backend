@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskRequestDTO {
-    @NotNull(message = "Task title cannot be empty")
+    @NotNull(message = "Task title cannot be null")
     @Size(min = 3, max = 50, message = "Task title must be between 3 and 50 characters long")
     private String title;
 
-    @NotNull(message = "Task description cannot be empty")
+    @NotNull(message = "Task description cannot be null")
     @Size(min = 3, max = 50, message = "Task description must be between 3 and 50 characters long")
     private String description;
 }

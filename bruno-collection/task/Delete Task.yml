@@ -5,7 +5,11 @@ info:
 
 http:
   method: DELETE
-  url: "{{url}}/tasks/1"
+  url: "{{url}}/tasks/:taskId"
+  params:
+    - name: taskId
+      value: "2"
+      type: path
 
 settings:
   encodeUrl: true

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,4 +22,6 @@ public class TaskResponseDTO {
     @NotNull(message = "Task description cannot be empty")
     @Size(min = 3, max = 50, message = "Task description must be between 3 and 50 characters long")
     private String description;
+
+    private Instant createdAt;
 }
