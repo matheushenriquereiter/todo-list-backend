@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers( "/auth/register", "/auth/login", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated())
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
+                        .logoutUrl("/auth/logout")
                         .deleteCookies("jwtToken")
                         .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
                 )
