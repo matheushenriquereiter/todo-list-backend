@@ -7,6 +7,8 @@ import io.github.matheushenriquereiter.project.models.Task;
 import io.github.matheushenriquereiter.project.models.User;
 import io.github.matheushenriquereiter.project.repositories.TaskRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -27,11 +29,22 @@ public class TaskService {
 
     public List<TaskResponseDTO> getTasks(String jwtToken) {
         User user = userService.getUserFromToken(jwtToken);
-        Set<Task> tasks = user.getTasks();
 
-        return tasks.stream()
+        return taskRepository.findAllByUser(user)
+                .stream()
                 .sorted(Comparator.comparing(Task::getCreatedAt))
-                .map(task -> new TaskResponseDTO(task.getId(), task.getTitle(), task.getDescription(), task.getCreatedAt())).toList();
+                .map(task -> new TaskResponseDTO(task.getId(), task.getTitle(), task.getDescription(), task.getCreatedAt()))
+                .toList();
+    }
+
+    public List<TaskResponseDTO> getPaginatedTasks(String jwtToken, int limit, int offset) {
+        User user = userService.getUserFromToken(jwtToken);
+        Pageable pagination = PageRequest.of(offset, limit);
+
+        return taskRepository.findAllByUser(user, pagination)
+                .stream()
+                .map(task -> new TaskResponseDTO(task.getId(), task.getTitle(), task.getDescription(), task.getCreatedAt()))
+                .toList();
     }
 
     public void createTask(String jwtToken, TaskRequestDTO taskRequestDTO) {

@@ -20,10 +20,17 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public ResponseEntity<List<TaskResponseDTO>> getUserTasks(@CookieValue("jwtToken") String jwtToken) {
+    public ResponseEntity<List<TaskResponseDTO>> getTasks(@CookieValue("jwtToken") String jwtToken) {
         List<TaskResponseDTO> userTasks = taskService.getTasks(jwtToken);
 
         return ResponseEntity.ok(userTasks);
+    }
+
+    @GetMapping(value = "/tasks", params = {"limit", "offset"})
+    public ResponseEntity<List<TaskResponseDTO>> getPaginatedTasks(@CookieValue("jwtToken") String jwtToken, @RequestParam int limit, @RequestParam int offset) {
+        List<TaskResponseDTO> paginatedTasks = taskService.getPaginatedTasks(jwtToken, limit, offset);
+
+        return ResponseEntity.ok(paginatedTasks);
     }
 
     @PostMapping("/tasks")
@@ -41,7 +48,7 @@ public class TaskController {
     }
 
     @PutMapping("/tasks/{taskId}")
-    public ResponseEntity<Serializable> update(@CookieValue("jwtToken") String jwtToken,  @PathVariable Long taskId, @Valid @RequestBody TaskRequestDTO taskRequestDTO) {
+    public ResponseEntity<Serializable> update(@CookieValue("jwtToken") String jwtToken, @PathVariable Long taskId, @Valid @RequestBody TaskRequestDTO taskRequestDTO) {
         taskService.updateTask(jwtToken, taskId, taskRequestDTO);
 
         return ResponseEntity.ok().build();
