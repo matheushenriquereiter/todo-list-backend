@@ -8,14 +8,14 @@ import java.util.List;
 
 @Getter
 public class ErrorResponse {
-    private final Instant timestamp = Instant.now();
     private final int status;
-    private final String message;
+    private final String detail;
+    private final Instant timestamp = Instant.now();
     private final List<FieldError> errors = new ArrayList<>();
 
-    public ErrorResponse(int status, String message) {
+    public ErrorResponse(int status, String detail) {
         this.status = status;
-        this.message = message;
+        this.detail = detail;
     }
 
     public void addFieldError(String field, String message) {
