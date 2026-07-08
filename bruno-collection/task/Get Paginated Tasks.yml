@@ -5,13 +5,13 @@ info:
 
 http:
   method: GET
-  url: "{{url}}/tasks?limit=5&offset=-1"
+  url: "{{url}}/tasks?limit=5&offset=0"
   params:
     - name: limit
       value: "5"
       type: query
     - name: offset
-      value: "-1"
+      value: "0"
       type: query
   auth: inherit
 
