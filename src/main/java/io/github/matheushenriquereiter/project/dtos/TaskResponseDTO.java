@@ -1,5 +1,6 @@
 package io.github.matheushenriquereiter.project.dtos;
 
+import io.github.matheushenriquereiter.project.enums.TaskStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,8 @@ public class TaskResponseDTO {
     @NotNull(message = "Task description cannot be empty")
     @Size(min = 3, max = 50, message = "Task description must be between 3 and 50 characters long")
     private String description;
+
+    private TaskStatus status;
 
     private Instant createdAt;
 }

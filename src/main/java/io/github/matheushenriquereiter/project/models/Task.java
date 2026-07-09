@@ -1,5 +1,7 @@
 package io.github.matheushenriquereiter.project.models;
 
+import io.github.matheushenriquereiter.project.dtos.TaskResponseDTO;
+import io.github.matheushenriquereiter.project.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,16 +29,25 @@ public class Task {
     @Column(nullable = false)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TaskStatus status;
 
     @CreationTimestamp
     private Instant createdAt;
 
-    public Task(String title, String description, User user) {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Task(String title, String description, TaskStatus status, User user) {
         this.title = title;
         this.description = description;
+        this.status = status;
         this.user = user;
+    }
+
+    public TaskResponseDTO toResponseDTO() {
+        return new TaskResponseDTO(id, title, description, status, createdAt);
     }
 }

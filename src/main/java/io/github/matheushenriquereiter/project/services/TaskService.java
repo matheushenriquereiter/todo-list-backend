@@ -2,6 +2,7 @@ package io.github.matheushenriquereiter.project.services;
 
 import io.github.matheushenriquereiter.project.dtos.TaskRequestDTO;
 import io.github.matheushenriquereiter.project.dtos.TaskResponseDTO;
+import io.github.matheushenriquereiter.project.enums.TaskStatus;
 import io.github.matheushenriquereiter.project.exceptions.TaskNotFoundException;
 import io.github.matheushenriquereiter.project.models.Task;
 import io.github.matheushenriquereiter.project.models.User;
@@ -32,7 +33,7 @@ public class TaskService {
         return taskRepository.findAllByUser(user)
                 .stream()
                 .sorted(Comparator.comparing(Task::getCreatedAt))
-                .map(task -> new TaskResponseDTO(task.getId(), task.getTitle(), task.getDescription(), task.getCreatedAt()))
+                .map(Task::toResponseDTO)
                 .toList();
     }
 
@@ -42,13 +43,13 @@ public class TaskService {
 
         return taskRepository.findAllByUser(user, pagination)
                 .stream()
-                .map(task -> new TaskResponseDTO(task.getId(), task.getTitle(), task.getDescription(), task.getCreatedAt()))
+                .map(Task::toResponseDTO)
                 .toList();
     }
 
     public void createTask(String jwtToken, TaskRequestDTO taskRequestDTO) {
         User user = userService.getUserFromToken(jwtToken);
-        Task task = new Task(taskRequestDTO.getTitle(), taskRequestDTO.getDescription(), user);
+        Task task = new Task(taskRequestDTO.getTitle(), taskRequestDTO.getDescription(), TaskStatus.TO_DO, user);
 
         taskRepository.save(task);
     }

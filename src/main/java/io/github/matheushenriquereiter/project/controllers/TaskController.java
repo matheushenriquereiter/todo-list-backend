@@ -47,7 +47,7 @@ public class TaskController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/tasks/{taskId}")
+    @PatchMapping("/tasks/{taskId}")
     public ResponseEntity<Serializable> update(@CookieValue("jwtToken") String jwtToken, @PathVariable Long taskId, @Valid @RequestBody TaskRequestDTO taskRequestDTO) {
         taskService.updateTask(jwtToken, taskId, taskRequestDTO);
 
