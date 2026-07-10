@@ -2,8 +2,11 @@ package io.github.matheushenriquereiter.project.controllers;
 
 import io.github.matheushenriquereiter.project.dtos.TaskRequestDTO;
 import io.github.matheushenriquereiter.project.dtos.TaskResponseDTO;
+import io.github.matheushenriquereiter.project.dtos.TaskStatusDTO;
+import io.github.matheushenriquereiter.project.enums.TaskStatus;
 import io.github.matheushenriquereiter.project.services.TaskService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +53,13 @@ public class TaskController {
     @PatchMapping("/tasks/{taskId}")
     public ResponseEntity<Serializable> update(@CookieValue("jwtToken") String jwtToken, @PathVariable Long taskId, @Valid @RequestBody TaskRequestDTO taskRequestDTO) {
         taskService.updateTask(jwtToken, taskId, taskRequestDTO);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping(value = "/tasks/{taskId}/status")
+    public ResponseEntity<Serializable> updateTaskStatus(@CookieValue("jwtToken") String jwtToken, @PathVariable Long taskId, @RequestBody TaskStatusDTO taskStatusDTO) {
+        taskService.updateTaskStatus(jwtToken, taskId, taskStatusDTO);
 
         return ResponseEntity.ok().build();
     }
