@@ -56,6 +56,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
+    @ExceptionHandler(TagAlreadyExists.class)
+    public ResponseEntity<ErrorResponse> handleTagAlreadyExists(TagAlreadyExists exception) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT.value(), "Tag already exists");
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUncaughtException(Exception exception) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage());
