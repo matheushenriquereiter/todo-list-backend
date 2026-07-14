@@ -4,7 +4,7 @@ import io.github.matheushenriquereiter.project.dtos.TaskRequestDTO;
 import io.github.matheushenriquereiter.project.dtos.TaskResponseDTO;
 import io.github.matheushenriquereiter.project.dtos.TaskStatusDTO;
 import io.github.matheushenriquereiter.project.enums.TaskStatus;
-import io.github.matheushenriquereiter.project.exceptions.TaskNotFoundException;
+import io.github.matheushenriquereiter.project.exceptions.EntityNotFoundException;
 import io.github.matheushenriquereiter.project.models.Task;
 import io.github.matheushenriquereiter.project.models.User;
 import io.github.matheushenriquereiter.project.repositories.TaskRepository;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -57,10 +58,10 @@ public class TaskService {
 
     public void deleteTask(String jwtToken, Long taskId) {
         User user = userService.getUserFromToken(jwtToken);
-        Task task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
+        Task task = taskRepository.findById(taskId).orElseThrow(EntityNotFoundException::new);
 
         if (!Objects.equals(user.getId(), task.getUser().getId())) {
-            throw new TaskNotFoundException();
+            throw new EntityNotFoundException();
         }
 
         taskRepository.delete(task);
@@ -68,10 +69,10 @@ public class TaskService {
 
     public void updateTask(String jwtToken, Long taskId, TaskRequestDTO taskRequestDTO) {
         User user = userService.getUserFromToken(jwtToken);
-        Task task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
+        Task task = taskRepository.findById(taskId).orElseThrow(EntityNotFoundException::new);
 
         if (!user.getId().equals(task.getId())) {
-            throw new TaskNotFoundException();
+            throw new EntityNotFoundException();
         }
 
         task.setTitle(taskRequestDTO.getTitle());
@@ -82,10 +83,10 @@ public class TaskService {
 
     public void updateTaskStatus(String jwtToken, Long taskId, TaskStatusDTO taskStatusDTO) {
         User user = userService.getUserFromToken(jwtToken);
-        Task task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
+        Task task = taskRepository.findById(taskId).orElseThrow(EntityNotFoundException::new);
 
         if (!user.getId().equals(task.getId())) {
-            throw new TaskNotFoundException();
+            throw new EntityNotFoundException();
         }
 
         task.setStatus(taskStatusDTO.status());

@@ -17,7 +17,7 @@ config:
 request:
   headers:
     - name: Cookie
-      value: jwtToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTc4MzcyMzYyOCwiZXhwIjoxNzgzNzI3MjI4fQ.gkPjoFpxvd7nzFh2ciUYhnoaEHKUxVQwVf08Q4KaRQQ
+      value: jwtToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXRoZXVzQGdtYWlsLmNvbSIsImlhdCI6MTc4NDA3MjQ4MiwiZXhwIjoxNzg0MDc2MDgyfQ.JMQf2XCTUeZh3L_2hvk5tQ5VLalhpqHlNIyMWgz8FIU
   variables:
     - name: url
       value: http://localhost:8080

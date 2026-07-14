@@ -2,6 +2,7 @@ package io.github.matheushenriquereiter.project.services;
 
 import io.github.matheushenriquereiter.project.dtos.TagRequestDTO;
 import io.github.matheushenriquereiter.project.dtos.TagResponseDTO;
+import io.github.matheushenriquereiter.project.exceptions.EntityNotFoundException;
 import io.github.matheushenriquereiter.project.exceptions.TagAlreadyExists;
 import io.github.matheushenriquereiter.project.models.Tag;
 import io.github.matheushenriquereiter.project.repositories.TagRepository;
@@ -17,6 +18,12 @@ public class TagService {
 
     public TagService(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
+    }
+
+    public TagResponseDTO getTagById(Long tagId) {
+        Tag tag = tagRepository.findById(tagId).orElseThrow(EntityNotFoundException::new);
+
+        return new TagResponseDTO(tag.getId(), tag.getName());
     }
 
     public TagResponseDTO createTag(TagRequestDTO tagRequestDTO) {

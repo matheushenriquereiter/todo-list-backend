@@ -35,9 +35,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
-    @ExceptionHandler(TaskNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleTaskNotFoundException(TaskNotFoundException exception) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), "Task not found");
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), "Entity not found");
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }

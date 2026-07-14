@@ -1,5 +1,6 @@
 package io.github.matheushenriquereiter.project.models;
 
+import io.github.matheushenriquereiter.project.dtos.TagResponseDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,9 @@ public class Tag {
 
     public Tag(String name) {
         this.name = name;
+    }
+
+    public TagResponseDTO toDTO() {
+        return new TagResponseDTO(id, name);
     }
 }
