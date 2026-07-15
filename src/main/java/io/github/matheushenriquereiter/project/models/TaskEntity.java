@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Task {
+public class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq")
     @SequenceGenerator(name = "task_seq", sequenceName = "task_id_seq", allocationSize = 1)
@@ -39,7 +39,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 
     @ManyToMany
     @JoinTable(
@@ -47,9 +47,9 @@ public class Task {
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    Set<Tag> tags;
+    Set<TagEntity> tags;
 
-    public Task(String title, String description, TaskStatus status, User user) {
+    public TaskEntity(String title, String description, TaskStatus status, UserEntity user) {
         this.title = title;
         this.description = description;
         this.status = status;

@@ -1,7 +1,7 @@
 package io.github.matheushenriquereiter.project.repositories;
 
-import io.github.matheushenriquereiter.project.models.Task;
-import io.github.matheushenriquereiter.project.models.User;
+import io.github.matheushenriquereiter.project.models.TaskEntity;
+import io.github.matheushenriquereiter.project.models.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 
-public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Task> findAllByUser(User user);
-    Page<Task> findAllByUser(User user, Pageable pageable);
+public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
+    List<TaskEntity> findAllByUser(UserEntity userEntity);
+    Page<TaskEntity> findAllByUser(UserEntity userEntity, Pageable pageable);
 }

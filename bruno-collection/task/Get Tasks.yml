@@ -1,5 +1,5 @@
 info:
-  name: Get Tasks
+  name: Get tasks
   type: http
   seq: 1
 

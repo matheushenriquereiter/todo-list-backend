@@ -1,5 +1,5 @@
 info:
-  name: Create Tag
+  name: Create tag
   type: http
   seq: 1
 
@@ -10,7 +10,7 @@ http:
     type: json
     data: |-
       {
-        "name": "dsad"
+        "name": "aa"
       }
   auth: inherit
 

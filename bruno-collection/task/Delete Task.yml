@@ -1,5 +1,5 @@
 info:
-  name: Delete Task
+  name: Delete task
   type: http
   seq: 2
 

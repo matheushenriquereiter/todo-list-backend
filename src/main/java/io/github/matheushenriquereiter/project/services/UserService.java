@@ -1,7 +1,7 @@
 package io.github.matheushenriquereiter.project.services;
 
-import io.github.matheushenriquereiter.project.exceptions.UserNotFoundException;
-import io.github.matheushenriquereiter.project.models.User;
+import io.github.matheushenriquereiter.project.exceptions.EntityNotFoundException;
+import io.github.matheushenriquereiter.project.models.UserEntity;
 import io.github.matheushenriquereiter.project.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,9 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
-    public User getUserFromToken(String jwtToken) {
+    public UserEntity getUserFromToken(String jwtToken) {
         String userEmail = jwtService.extractUsername(jwtToken);
 
-        return userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
+        return userRepository.findByEmail(userEmail).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 }

@@ -1,5 +1,5 @@
 info:
-  name: Create Task
+  name: Create task
   type: http
   seq: 1
 

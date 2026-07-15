@@ -3,8 +3,8 @@ package io.github.matheushenriquereiter.project.services;
 import io.github.matheushenriquereiter.project.dtos.TagRequestDTO;
 import io.github.matheushenriquereiter.project.dtos.TagResponseDTO;
 import io.github.matheushenriquereiter.project.exceptions.EntityNotFoundException;
-import io.github.matheushenriquereiter.project.exceptions.TagAlreadyExists;
-import io.github.matheushenriquereiter.project.models.Tag;
+import io.github.matheushenriquereiter.project.exceptions.EntityAlreadyExistsException;
+import io.github.matheushenriquereiter.project.models.TagEntity;
 import io.github.matheushenriquereiter.project.repositories.TagRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -21,20 +21,20 @@ public class TagService {
     }
 
     public TagResponseDTO getTagById(Long tagId) {
-        Tag tag = tagRepository.findById(tagId).orElseThrow(EntityNotFoundException::new);
+        TagEntity tagEntity = tagRepository.findById(tagId).orElseThrow(() -> new EntityNotFoundException("Tag not found"));
 
-        return new TagResponseDTO(tag.getId(), tag.getName());
+        return new TagResponseDTO(tagEntity.getId(), tagEntity.getName());
     }
 
     public TagResponseDTO createTag(TagRequestDTO tagRequestDTO) {
-        Optional<Tag> tag = tagRepository.findTagByName(tagRequestDTO.name());
+        Optional<TagEntity> tag = tagRepository.findTagByName(tagRequestDTO.name());
 
         if (tag.isPresent()) {
-            throw new TagAlreadyExists();
+            throw new EntityAlreadyExistsException("Tag already exists");
         }
 
-        Tag createdTag = tagRepository.save(new Tag(tagRequestDTO.name()));
+        TagEntity createdTagEntity = tagRepository.save(new TagEntity(tagRequestDTO.name()));
 
-        return new TagResponseDTO(createdTag.getId(), createdTag.getName());
+        return new TagResponseDTO(createdTagEntity.getId(), createdTagEntity.getName());
     }
 }

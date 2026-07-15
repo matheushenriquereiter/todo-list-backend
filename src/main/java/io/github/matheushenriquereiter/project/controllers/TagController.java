@@ -2,16 +2,10 @@ package io.github.matheushenriquereiter.project.controllers;
 
 import io.github.matheushenriquereiter.project.dtos.TagRequestDTO;
 import io.github.matheushenriquereiter.project.dtos.TagResponseDTO;
-import io.github.matheushenriquereiter.project.exceptions.EntityNotFoundException;
-import io.github.matheushenriquereiter.project.exceptions.TagAlreadyExists;
-import io.github.matheushenriquereiter.project.models.Tag;
-import io.github.matheushenriquereiter.project.repositories.TagRepository;
 import io.github.matheushenriquereiter.project.services.TagService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/tags")

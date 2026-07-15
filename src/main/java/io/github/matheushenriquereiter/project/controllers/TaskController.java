@@ -3,10 +3,8 @@ package io.github.matheushenriquereiter.project.controllers;
 import io.github.matheushenriquereiter.project.dtos.TaskRequestDTO;
 import io.github.matheushenriquereiter.project.dtos.TaskResponseDTO;
 import io.github.matheushenriquereiter.project.dtos.TaskStatusDTO;
-import io.github.matheushenriquereiter.project.enums.TaskStatus;
 import io.github.matheushenriquereiter.project.services.TaskService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,16 +22,12 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public ResponseEntity<List<TaskResponseDTO>> getTasks(@CookieValue("jwtToken") String jwtToken) {
-        List<TaskResponseDTO> userTasks = taskService.getTasks(jwtToken);
-
-        return ResponseEntity.ok(userTasks);
+        return ResponseEntity.ok(taskService.getTasks(jwtToken));
     }
 
     @GetMapping(value = "/tasks", params = {"limit", "offset"})
     public ResponseEntity<List<TaskResponseDTO>> getPaginatedTasks(@CookieValue("jwtToken") String jwtToken, @RequestParam int limit, @RequestParam int offset) {
-        List<TaskResponseDTO> paginatedTasks = taskService.getPaginatedTasks(jwtToken, limit, offset);
-
-        return ResponseEntity.ok(paginatedTasks);
+        return ResponseEntity.ok(taskService.getPaginatedTasks(jwtToken, limit, offset));
     }
 
     @PostMapping("/tasks")

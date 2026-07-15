@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Tag {
+public class TagEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_seq")
     @SequenceGenerator(name = "task_seq", sequenceName = "task_id_seq", allocationSize = 1)
@@ -23,9 +23,9 @@ public class Tag {
     private String name;
 
     @ManyToMany
-    Set<Task> tasks;
+    Set<TaskEntity> tasks;
 
-    public Tag(String name) {
+    public TagEntity(String name) {
         this.name = name;
     }
 

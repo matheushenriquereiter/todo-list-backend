@@ -5,7 +5,7 @@ import io.github.matheushenriquereiter.project.dtos.UserLoginDTO;
 import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
 import io.github.matheushenriquereiter.project.exceptions.EmailAlreadyTakenException;
 import io.github.matheushenriquereiter.project.exceptions.InvalidCredentialsException;
-import io.github.matheushenriquereiter.project.models.User;
+import io.github.matheushenriquereiter.project.models.UserEntity;
 import io.github.matheushenriquereiter.project.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class AuthService {
     }
 
     public void register(UserRegisterDTO userRegisterDTO) {
-        Optional<User> user = userRepository.findByEmail(userRegisterDTO.getEmail());
+        Optional<UserEntity> user = userRepository.findByEmail(userRegisterDTO.getEmail());
 
         if (user.isPresent()) {
             throw new EmailAlreadyTakenException();
@@ -33,13 +33,13 @@ public class AuthService {
 
         String encodedPassword = passwordEncoder.encode(userRegisterDTO.getPassword());
 
-        userRepository.save(new User(userRegisterDTO.getUsername(), userRegisterDTO.getEmail(), encodedPassword));
+        userRepository.save(new UserEntity(userRegisterDTO.getUsername(), userRegisterDTO.getEmail(), encodedPassword));
     }
 
     public JwtTokenDTO login(UserLoginDTO userLoginDTO) {
-        User user = userRepository.findByEmail(userLoginDTO.getEmail()).orElseThrow(InvalidCredentialsException::new);
+        UserEntity userEntity = userRepository.findByEmail(userLoginDTO.getEmail()).orElseThrow(InvalidCredentialsException::new);
 
-        if (!passwordEncoder.matches(userLoginDTO.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(userLoginDTO.getPassword(), userEntity.getPassword())) {
             throw new InvalidCredentialsException();
         }
 

@@ -4,7 +4,7 @@ import io.github.matheushenriquereiter.project.dtos.JwtTokenDTO;
 import io.github.matheushenriquereiter.project.dtos.UserDTO;
 import io.github.matheushenriquereiter.project.dtos.UserLoginDTO;
 import io.github.matheushenriquereiter.project.dtos.UserRegisterDTO;
-import io.github.matheushenriquereiter.project.models.User;
+import io.github.matheushenriquereiter.project.models.UserEntity;
 import io.github.matheushenriquereiter.project.services.AuthService;
 import io.github.matheushenriquereiter.project.services.UserService;
 import jakarta.validation.Valid;
@@ -41,8 +41,8 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDTO> me(@CookieValue("jwtToken") String jwtToken) {
-        User user = userService.getUserFromToken(jwtToken);
-        UserDTO userDTO = new UserDTO(user.getUsername(), user.getEmail());
+        UserEntity userEntity = userService.getUserFromToken(jwtToken);
+        UserDTO userDTO = new UserDTO(userEntity.getUsername(), userEntity.getEmail());
 
         return ResponseEntity.ok(userDTO);
     }
