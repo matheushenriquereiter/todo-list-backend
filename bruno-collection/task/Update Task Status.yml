@@ -8,13 +8,13 @@ http:
   url: "{{url}}/tasks/:taskId/status"
   params:
     - name: taskId
-      value: "1"
+      value: "2"
       type: path
   body:
     type: json
     data: |-
       {
-        "status": "DONE"
+        "status": "TO_DO"
       }
 
 settings:

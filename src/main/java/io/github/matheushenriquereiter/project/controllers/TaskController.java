@@ -52,7 +52,7 @@ public class TaskController {
     }
 
     @PatchMapping(value = "/tasks/{taskId}/status")
-    public ResponseEntity<Serializable> updateTaskStatus(@CookieValue("jwtToken") String jwtToken, @PathVariable Long taskId, @RequestBody TaskStatusDTO taskStatusDTO) {
+    public ResponseEntity<Serializable> updateTaskStatus(@CookieValue("jwtToken") String jwtToken, @PathVariable Long taskId, @Valid @RequestBody TaskStatusDTO taskStatusDTO) {
         taskService.updateTaskStatus(jwtToken, taskId, taskStatusDTO);
 
         return ResponseEntity.ok().build();
