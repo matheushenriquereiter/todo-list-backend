@@ -7,19 +7,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserRegisterDTO {
-    @NotBlank(message = "User username must not be empty")
-    @Size(min = 3, max = 50, message = "User username must be between 3 and 50 characters long")
-    private String username;
+public record UserRegisterDTO(
+        @NotBlank(message = "User username must not be empty")
+        @Size(min = 3, max = 50, message = "User username must be between 3 and 50 characters long")
+        String username,
 
-    @NotBlank(message = "User email must not be empty")
-    @Email(message = "User email must be valid.")
-    private String email;
+        @NotBlank(message = "User email must not be empty")
+        @Email(message = "User email must be valid.")
+        String email,
 
-    @NotBlank(message = "User password must not be empty")
-    @Size(min = 3, max = 50, message = "User password must be between 3 and 50 characters long")
-    private String password;
+        @NotBlank(message = "User password must not be empty")
+        @Size(min = 3, max = 50, message = "User password must be between 3 and 50 characters long")
+        String password) {
 }

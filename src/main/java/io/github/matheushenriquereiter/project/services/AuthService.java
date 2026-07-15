@@ -25,24 +25,24 @@ public class AuthService {
     }
 
     public void register(UserRegisterDTO userRegisterDTO) {
-        Optional<UserEntity> user = userRepository.findByEmail(userRegisterDTO.getEmail());
+        Optional<UserEntity> user = userRepository.findByEmail(userRegisterDTO.email());
 
         if (user.isPresent()) {
             throw new EmailAlreadyTakenException();
         }
 
-        String encodedPassword = passwordEncoder.encode(userRegisterDTO.getPassword());
+        String encodedPassword = passwordEncoder.encode(userRegisterDTO.password());
 
-        userRepository.save(new UserEntity(userRegisterDTO.getUsername(), userRegisterDTO.getEmail(), encodedPassword));
+        userRepository.save(new UserEntity(userRegisterDTO.username(), userRegisterDTO.email(), encodedPassword));
     }
 
     public JwtTokenDTO login(UserLoginDTO userLoginDTO) {
-        UserEntity userEntity = userRepository.findByEmail(userLoginDTO.getEmail()).orElseThrow(InvalidCredentialsException::new);
+        UserEntity userEntity = userRepository.findByEmail(userLoginDTO.email()).orElseThrow(InvalidCredentialsException::new);
 
-        if (!passwordEncoder.matches(userLoginDTO.getPassword(), userEntity.getPassword())) {
+        if (!passwordEncoder.matches(userLoginDTO.password(), userEntity.getPassword())) {
             throw new InvalidCredentialsException();
         }
 
-        return new JwtTokenDTO(jwtService.generateToken(userLoginDTO.getEmail()));
+        return new JwtTokenDTO(jwtService.generateToken(userLoginDTO.email()));
     }
 }

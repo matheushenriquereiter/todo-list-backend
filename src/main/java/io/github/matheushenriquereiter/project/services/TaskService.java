@@ -50,7 +50,7 @@ public class TaskService {
 
     public void createTask(String jwtToken, TaskRequestDTO taskRequestDTO) {
         UserEntity userEntity = userService.getUserFromToken(jwtToken);
-        TaskEntity taskEntity = new TaskEntity(taskRequestDTO.getTitle(), taskRequestDTO.getDescription(), TaskStatus.TO_DO, userEntity);
+        TaskEntity taskEntity = new TaskEntity(taskRequestDTO.title(), taskRequestDTO.description(), TaskStatus.TO_DO, userEntity);
 
         taskRepository.save(taskEntity);
     }
@@ -74,8 +74,8 @@ public class TaskService {
             throw new EntityNotFoundException("Task not found");
         }
 
-        taskEntity.setTitle(taskRequestDTO.getTitle());
-        taskEntity.setDescription(taskRequestDTO.getDescription());
+        taskEntity.setTitle(taskRequestDTO.title());
+        taskEntity.setDescription(taskRequestDTO.description());
 
         taskRepository.save(taskEntity);
     }
